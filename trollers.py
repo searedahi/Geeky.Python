@@ -17,5 +17,5 @@ while True:
     input_state = GPIO.input(17)
     if input_state == False:
         print('Button Pressed')
-	blink(27)
-	time.sleep(0.2)
+        blink(27)
+        time.sleep(0.2)

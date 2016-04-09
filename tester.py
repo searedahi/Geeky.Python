@@ -5,7 +5,6 @@ import sqlite3
 import os
 import glob
 import gps
-from __future__ import print_function
 
 
 script, filename = argv
@@ -17,8 +16,8 @@ session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 
 
 #SQL
-conn=sqlite3.connect('tester.db')
-curs=conn.cursor()
+conn = sqlite3.connect('tester.db')
+curs = conn.cursor()
 
 #Thermometer
 os.system('modprobe w1-gpio')
@@ -60,7 +59,7 @@ try:
                 idx = poleMap.index(pin)
                 time_now = time.time()
                 time_then = timestamps[idx]
-                if(time_now - time_then) >=3:
+                if(time_now - time_then) >= 3:
                         gpsTime = '12:00.00'
                         gpsData = session.next()
                         save_object(gpsData, 'gpsDataOuput.pk1')
@@ -71,13 +70,13 @@ try:
 
                         
                         raw_temp = read_temp()
-                        conn=sqlite3.connect('tester.db')
-                        curs=conn.cursor()
-                        dbStr = '''INSERT INTO hits values(date('now'),time('now'),'{0} - {1}');'''.format(idx+1, raw_temp) 
+                        conn = sqlite3.connect('tester.db')
+                        curs = conn.cursor()
+                        dbStr = '''INSERT INTO hits values(date('now'),time('now'),'{0} - {1}');'''.format(idx + 1, raw_temp) 
                         curs.execute(dbStr)
                         conn.commit()
                         conn.close()
-                        print 'Knockdown on pole {0}.  {1} Degrees F  at {2}'.format(idx+1,farenheight_from_raw(raw_temp), gpsTime)                                                                   
+                        print('Knockdown on pole {0}.  {1} Degrees F  at {2}'.format(idx + 1,farenheight_from_raw(raw_temp), gpsTime))
                 timestamps[idx] = time_now                
                 return
 
@@ -85,7 +84,7 @@ try:
                 return float(raw) / 1000.0
 
         def farenheight_from_raw(raw):
-                celcius =  float(raw) / 1000.0
+                celcius = float(raw) / 1000.0
                 return celcius * 9.0 / 5.0 + 32.0
 
         def read_temp_raw():
@@ -100,7 +99,7 @@ try:
                         lines = read_temp_raw()
                 equals_pos = lines[1].find('t=')
                 if equals_pos != -1:
-                        temp_string = lines[1][equals_pos+2:]
+                        temp_string = lines[1][equals_pos + 2:]
                         return temp_string
 
 
@@ -118,7 +117,7 @@ try:
         while True:
                 pass
 except:        
-        print 'Exited on except'
+        print('Exited on except')
         pass
 
 conn.close()

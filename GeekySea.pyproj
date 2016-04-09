@@ -24,6 +24,9 @@
     <Content Include="gpsDictionary.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoatManager.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="sqlTester.py" />
     <Compile Include="tester.py" />
     <Compile Include="thermometer.py" />

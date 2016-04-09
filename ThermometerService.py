@@ -1,6 +1,7 @@
 import os
 import glob
 import time
+import DataOps
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -23,11 +24,19 @@ def read_temp():
 	equals_pos = lines[1].find('t=')
 	if equals_pos != -1:
 		temp_string = lines[1][equals_pos+2:]
-		temp_c = float(temp_string) / 1000.0
-		temp_f = temp_c * 9.0 / 5.0 + 32.0
-		return str(temp_c) +' Celcius, ' + str(temp_f)
+		return str(temp_string)
+
+
+def CurrentCelcius():
+    temp_string = read_temp()
+    temp_c = float(temp_string) / 1000.0
+    return temp_c
+
+def CurrentFarenheight():
+    temp_c = CurrentCelcius()
+    temp_f = temp_c * 9.0 / 5.0 + 32.0
+    return temp_f
 
 while True:
-	print(read_temp())
-	time.sleep(1)
-
+    DataOps.DataOps.saveTemperature(read_temp())
+    time.sleep(15)

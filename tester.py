@@ -6,13 +6,11 @@ import os
 import glob
 import gps
 
-
 script, filename = argv
 
 #GPS
 session = gps.gps('localhost','2947')
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
-
 
 
 #SQL
@@ -62,7 +60,7 @@ try:
                 if(time_now - time_then) >= 3:
                         gpsTime = '12:00.00'
                         gpsData = session.next()
-                        save_object(gpsData, 'gpsDataOuput.pk1')
+                        #save_object(gpsData, 'gpsDataOuput.pk1')
                         if gpsData['class'] == 'TPV':
                                 if hasattr(gpsData, 'time'):
                                         gpsTime = gpsData.time
@@ -70,12 +68,7 @@ try:
 
                         
                         raw_temp = read_temp()
-                        conn = sqlite3.connect('tester.db')
-                        curs = conn.cursor()
-                        dbStr = '''INSERT INTO hits values(date('now'),time('now'),'{0} - {1}');'''.format(idx + 1, raw_temp) 
-                        curs.execute(dbStr)
-                        conn.commit()
-                        conn.close()
+                        
                         print('Knockdown on pole {0}.  {1} Degrees F  at {2}'.format(idx + 1,farenheight_from_raw(raw_temp), gpsTime))
                 timestamps[idx] = time_now                
                 return

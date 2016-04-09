@@ -21,18 +21,30 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="DAL\SeedDatabase.sql" />
     <Content Include="gpsDictionary.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoatManager.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAL\CreateDatabase.sql">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\DataOps.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LocatorService.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="sqlTester.py" />
     <Compile Include="tester.py" />
-    <Compile Include="thermometer.py" />
-    <Compile Include="troller.py" />
-    <Compile Include="trollers.py" />
+    <Compile Include="ThermometerService.py" />
+    <Compile Include="TrollerService.py" />
     <Compile Include="turnOnLight.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DAL\" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />

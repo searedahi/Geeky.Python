@@ -2,32 +2,10 @@ import sqlite3
 import uuid
 import os
 
-
 class DataOps(object):
     """all the data operatiosn to my pi"""
     serialNum = "0000000000000000"
-
-    def getserial(self):
-
-        # Extract serial from cpuinfo file
-        cpuserial = "0000000000000001"
-        try:
-            strPath ='/proc/cpuinfo'
-            basepath = os.path.dirname(__file__)
-            filepath = os.path.abspath(os.path.join(basepath,"..", "..", "..", strPath))
-            f = open(filepath, "r")
-            for line in f:
-                if line[0:6] == 'Serial':
-                    cpuserial = line[10:26]
-            f.close()
-        except Exception as e:
-            print (e)
-            cpuserial = "ERROR000000004"        
-        
-        self.serialNum = cpuserial
-        return self.serialNum
-
-    
+       
     def saveHit(self, sensorId):
         conn = sqlite3.connect('tester.db')
         curs = conn.cursor()
@@ -55,5 +33,24 @@ class DataOps(object):
         conn.close()
         return
 
+    def getserial(self):
+        # Extract serial from cpuinfo file
+        cpuserial = "0000000000000001"
+        try:
+            strPath ='/proc/cpuinfo'
+            basepath = os.path.dirname(__file__)
+            filepath = os.path.abspath(os.path.join(basepath,"..", "..", "..", strPath))
+            f = open(filepath, "r")
+            for line in f:
+                if line[0:6] == 'Serial':
+                    cpuserial = line[10:26]
+            f.close()
+        except Exception as e:
+            print (e)
+            cpuserial = "ERROR000000004"        
+        
+        self.serialNum = cpuserial
+        return self.serialNum
+    
     def __init__(self):
-        self.getserial()    
+        self.getserial()

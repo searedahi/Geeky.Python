@@ -3,7 +3,6 @@ import glob
 import time
 import DataOps
 import ptvsd
-ptvsd.enable_attach(secret = 'thermoSvc')
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -32,12 +31,12 @@ def read_temp():
 		return temp_string
 
 
-def CurrentCelcius(self):
+def CurrentCelcius():
     temp_string = read_temp()
     temp_c = float(temp_string) / 1000.0
     return temp_c
 
-def CurrentFarenheight(self):
+def CurrentFarenheight():
     temp_c = CurrentCelcius()
     temp_f = temp_c * 9.0 / 5.0 + 32.0
     return temp_f

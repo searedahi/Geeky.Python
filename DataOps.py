@@ -5,32 +5,27 @@ import os
 class DataOps(object):
     """all the data operatiosn to my pi"""
     serialNum = "0000000000000000"
+    conn = sqlite3.connect('tester.db')
        
     def saveHit(self, sensorId):
-        conn = sqlite3.connect('tester.db')
-        curs = conn.cursor()
+        curs = self.conn.cursor()
         dbStr = '''INSERT INTO Hits(Id,SensorId,Date,DeviceId) VALUES('{0}',{1},datetime('now'),'{2}');'''.format(uuid.uuid4(), sensorId, self.serialNum)
         curs.execute(dbStr)
-        conn.commit()
-        conn.close()
+        self.conn.commit()
         return
 
     def saveTemperature(self, sensorTemp):
-        conn = sqlite3.connect('tester.db')
-        curs = conn.cursor()
+        curs = self.conn.cursor()
         dbStr = '''INSERT INTO Temperatures(Id,SensorReading,Date,DeviceId) VALUES('{0}',{1},datetime('now'),'{2}');'''.format(uuid.uuid4(), sensorTemp, self.serialNum)
         curs.execute(dbStr)
-        conn.commit()
-        conn.close()
+        self.conn.commit()
         return
 
     def saveGpsData(self, gpsData):
-        conn = sqlite3.connect('tester.db')
-        curs = conn.cursor()
+        curs = self.conn.cursor()
         dbStr = '''INSERT INTO Locations(Id,Lat,Lon,Date,DeviceId) VALUES('{0}',{1},{2},datetime('now'),'{3}');'''.format(uuid.uuid4(), gpsData.Lat, gpsData.Lon, self.serialNum)
         curs.execute(dbStr)
-        conn.commit()
-        conn.close()
+        self.conn.commit()
         return
 
     def getserial(self):
@@ -54,3 +49,6 @@ class DataOps(object):
     
     def __init__(self):
         self.getserial()
+
+    def __delattr__(self):
+        self.conn.close()

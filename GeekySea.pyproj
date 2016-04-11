@@ -31,7 +31,7 @@
     <Compile Include="DAL\CreateDatabase.sql">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DAL\DataOps.py">
+    <Compile Include="DataOps.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LocatorService.py">

@@ -7,4 +7,6 @@ import LocatorService
 class BoatManager(object):
     """this is the master task that calls into the other python libs"""
 
-    print(ThermometerService.CurrentFarenheight())
+    thermoSvc = ThermometerService()
+
+    print(thermoSvc.CurrentFarenheight())

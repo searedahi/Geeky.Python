@@ -28,10 +28,11 @@ class LocatorService(object):
 
     def getLatitude(self):
         localGpsData = self.gpsData
+        gpsLat = '00.00'
         if localGpsData['class'] == 'TPV':
-            if hasattr(localGpsData, 'time'):
-                gpsTime = localGpsData.time
-                return gpsTime
+            if hasattr(localGpsData, 'lat'):
+                gpsLat = localGpsData.lat
+        return gpsLat
         return
 
     def run(self):
@@ -39,8 +40,8 @@ class LocatorService(object):
                 self.getSatelliteData()
                 #dbRepo = DataOps.DataOps()
                 #dbRepo.saveGpsData()
-                print(self.gpsData)
-                time.sleep(15)
+                #print(self.gpsData)
+                time.sleep(10)
                 pass
             return
 

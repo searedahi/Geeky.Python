@@ -5,7 +5,7 @@ import os
 class DataOps(object):
     """all the data operatiosn to my pi"""
     serialNum = "0000000000000000"
-    conn = sqlite3.connect('tester.db')
+    conn = sqlite3.connect('tester.db', check_same_thread=False)
        
     def saveHit(self, sensorId):
         curs = self.conn.cursor()

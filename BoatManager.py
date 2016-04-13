@@ -10,6 +10,6 @@ print('starting')
 
 while True:
     print('loop')   
-    print(Tempy.CurrentCelcius())
+    print(Tempy.CurrentFarenheight 'F' )
     time.sleep(15)
     pass

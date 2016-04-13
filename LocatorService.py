@@ -33,7 +33,30 @@ class LocatorService(object):
             if hasattr(localGpsData, 'lat'):
                 gpsLat = localGpsData.lat
         return gpsLat
-        return
+
+    def getLongitude(self):
+        localGpsData = self.gpsData
+        gpsLon = '00.00'
+        if localGpsData['class'] == 'TPV':
+            if hasattr(localGpsData, 'lon'):
+                gpsLon = localGpsData.lon
+        return gpsLon
+
+    def getSpeed(self):
+        localGpsData = self.gpsData
+        gpsSpeed = '0.0'
+        if localGpsData['class'] == 'TPV':
+            if hasattr(localGpsData, 'speed'):
+                gpsSpeed = localGpsData.speed
+        return gpsSpeed
+
+    def getHeading(self):
+        localGpsData = self.gpsData
+        gpsHeading = '0.0'
+        if localGpsData['class'] == 'TPV':
+            if hasattr(localGpsData, 'heading'):
+                gpsHeading = localGpsData.heading
+        return gpsHeading
 
     def run(self):
             while self.runBackgroundLocationThread:

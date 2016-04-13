@@ -1,15 +1,16 @@
 import time
 import ThermometerService
+import LocatorService
 
 
-print('hello')
+print('startingServices')
 
 Tempy = ThermometerService.ThermometerService()
-print('starting')
-#Tempy.runService()
+Loco = LocatorService.LocatorService()
 
+print('loop')
 while True:
-    print('loop')   
     print('{0} Degrees F').format(Tempy.CurrentFarenheight())
+    print('{0} Zulu Time').format(Loco.getZuluTime())
     time.sleep(15)
     pass

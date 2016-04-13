@@ -16,6 +16,7 @@ class ThermometerService(object):
     device_file = device_folder + '/w1_slave'
 
     lastTemperature = 0
+    runBackgroundThermometerThread = True
 
     def read_temp_raw(self):
         f = open(self.device_file, 'r')
@@ -44,7 +45,7 @@ class ThermometerService(object):
         return temp_f
 
     def run(self):
-        while True:
+        while self.runBackgroundThermometerThread:
             rawTemp = self.read_temp()
             if rawTemp != self.lastTemperature:
                 thermoData = DataOps.DataOps()
@@ -52,7 +53,7 @@ class ThermometerService(object):
                 self.lastTemperature = rawTemp
             time.sleep(6)
 
-    def __init__(self, interval=6):
+    def __init__(self, interval=4):
         """ Constructor
         :type interval: int
         :param interval: Check interval, in seconds

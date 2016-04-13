@@ -10,6 +10,6 @@ print('starting')
 
 while True:
     print('loop')   
-    print(Tempy.CurrentFarenheight 'F' )
+    print('{0} Degrees F').format(Tempy.CurrentFarenheight())
     time.sleep(15)
     pass

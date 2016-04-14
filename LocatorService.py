@@ -10,18 +10,21 @@ class LocatorService(object):
     session = gps.gps('localhost','2947')
     session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 
-    gpsData = []
+    gpsData = None
     
+    LastLat = '00.00'
+    LastLon = '00.00'
+
     def getSatelliteData(self):
-        self.gpsData = self.session.next()
-        #save_object(gpsData, 'gpsDataOuput.pk1')
-        #print(gpsData)
+        rawGpsData = self.session.next()
+        if rawGpsData['class'] == 'TPV':
+            self.gpsData = rawGpsData
         return self.gpsData
 
     def getZuluTime(self):
         localGpsData = self.gpsData
         gpsTime = '00:00.00'
-        if localGpsData['class'] == 'TPV':
+        if localGpsData is not None:
             if hasattr(localGpsData, 'time'):
                 gpsTime = localGpsData.time
         return gpsTime
@@ -29,7 +32,7 @@ class LocatorService(object):
     def getLatitude(self):
         localGpsData = self.gpsData
         gpsLat = '00.00'
-        if localGpsData['class'] == 'TPV':
+        if localGpsData is not None:
             if hasattr(localGpsData, 'lat'):
                 gpsLat = localGpsData.lat
         return gpsLat
@@ -37,7 +40,7 @@ class LocatorService(object):
     def getLongitude(self):
         localGpsData = self.gpsData
         gpsLon = '00.00'
-        if localGpsData['class'] == 'TPV':
+        if localGpsData is not None:
             if hasattr(localGpsData, 'lon'):
                 gpsLon = localGpsData.lon
         return gpsLon
@@ -45,31 +48,37 @@ class LocatorService(object):
     def getSpeed(self):
         localGpsData = self.gpsData
         gpsSpeed = '0.0'
-        if localGpsData['class'] == 'TPV':
+        if localGpsData is not None:
             if hasattr(localGpsData, 'speed'):
                 gpsSpeed = localGpsData.speed
         return gpsSpeed
 
-    def getHeading(self):
+    def getTrack(self):
         localGpsData = self.gpsData
-        gpsHeading = '0.0'
-        if localGpsData['class'] == 'TPV':
-            if hasattr(localGpsData, 'heading'):
-                gpsHeading = localGpsData.heading
-        return gpsHeading
+        gpsTrack = '0.0'
+        if localGpsData is not None:
+            if hasattr(localGpsData, 'track'):
+                gpsTrack = localGpsData.track
+        return gpsTrack
 
     def run(self):
             while self.runBackgroundLocationThread:
-                self.getSatelliteData()
-                #dbRepo = DataOps.DataOps()
-                #dbRepo.saveGpsData()
+                loopGpsData = self.getSatelliteData()
+                loopLat = self.getLatitude()
+                loopLon = self.getLongitude()
+                if self.LastLat != loopLat  or self.LastLon != loopLon:
+                    dbRepo = DataOps.DataOps()
+                    dbRepo.saveGpsData(self.gpsData)
+                    self.LastLat = loopLat
+                    self.LastLon = loopLon
+                    print('Saved gpsData')
                 #print(self.gpsData)
-                time.sleep(10)
+                time.sleep(8)
                 pass
             return
 
 
-    def __init__(self, interval=6):
+    def __init__(self, interval=3):
         """ Constructor
         :type interval: int
         :param interval: Check interval, in seconds

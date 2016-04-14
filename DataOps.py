@@ -22,8 +22,10 @@ class DataOps(object):
         return
 
     def saveGpsData(self, gpsData):
+        print(gpsData)
         curs = self.conn.cursor()
-        dbStr = '''INSERT INTO Locations(Id,Lat,Lon,Date,DeviceId) VALUES('{0}',{1},{2},datetime('now'),'{3}');'''.format(uuid.uuid4(), gpsData.Lat, gpsData.Lon, self.serialNum)
+        dbStr = '''INSERT INTO Locations(Id,Lat,Lon,Date,DeviceId) VALUES('{0}',{1},{2},datetime('now'),'{3}');'''.format(uuid.uuid4(), gpsData.lat, gpsData.lon, self.serialNum)
+        print(dbStr)
         curs.execute(dbStr)
         self.conn.commit()
         return

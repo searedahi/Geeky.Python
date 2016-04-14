@@ -3,15 +3,18 @@ import ThermometerService
 import LocatorService
 
 
-print('startingServices')
+print('Starting Boat Manager')
 
 Tempy = ThermometerService.ThermometerService()
 Loco = LocatorService.LocatorService()
 
-print('loop')
+while Loco.gpsData is None:
+    print('No location fix')
+    time.sleep(5)
+
 while True:
-    print('Temperature {0}').format(Tempy.CurrentFarenheight())
     print('Zulu Time   {0} ').format(Loco.getZuluTime())
+    print('Temperature {0} Degrees F').format(Tempy.CurrentFarenheight())    
     print('Position    {0} Lat x {1} Lon').format(Loco.getLatitude(),Loco.getLongitude())
-    time.sleep(15)
+    time.sleep(6)
     pass

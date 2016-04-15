@@ -1,7 +1,10 @@
+DROP TABLE [Locations] 
 CREATE TABLE [Locations] (
   [Id] uniqueidentifier PRIMARY KEY NOT NULL
 , [Lat] real NULL
 , [Lon] real NULL
+, [Speed] real null
+, [Track] real null
 , [Date] datetime DEFAULT CURRENT_TIMESTAMP NOT NULL
 , [DeviceId] uniqueidentifier NULL
 );

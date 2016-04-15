@@ -4,7 +4,7 @@ import time
 import threading
 
 class LocatorService(object):
-    """All the gps related logic for my pi"""
+    """All the gps related logic for my geeky pi"""
     runBackgroundLocationThread = True
 
     session = gps.gps('localhost','2947')
@@ -14,6 +14,8 @@ class LocatorService(object):
     
     LastLat = '00.00'
     LastLon = '00.00'
+    LastSpeed = '0.0'
+    LastTrack = '0.0'
 
     def getSatelliteData(self):
         rawGpsData = self.session.next()
@@ -21,59 +23,102 @@ class LocatorService(object):
             self.gpsData = rawGpsData
         return self.gpsData
 
-    def getZuluTime(self):
-        localGpsData = self.gpsData
+    def ParseTimeFromGpsData(self, argGpsData):
+        if argGpsData is None:
+            localGpsData = argGpsData
+        else:
+            localGpsData = self.gpsData
+
         gpsTime = '00:00.00'
         if localGpsData is not None:
             if hasattr(localGpsData, 'time'):
                 gpsTime = localGpsData.time
         return gpsTime
 
-    def getLatitude(self):
-        localGpsData = self.gpsData
+    def ParseLatitudeFromGpsData(self, argGpsData):
+        if argGpsData is None:
+            localGpsData = argGpsData
+        else:
+            localGpsData = self.gpsData
+
         gpsLat = '00.00'
         if localGpsData is not None:
             if hasattr(localGpsData, 'lat'):
                 gpsLat = localGpsData.lat
         return gpsLat
 
-    def getLongitude(self):
-        localGpsData = self.gpsData
+    def ParseLongitudeFromGpsData(self, argGpsData):
+        if argGpsData is None:
+            localGpsData = argGpsData
+        else:
+            localGpsData = self.gpsData
+
         gpsLon = '00.00'
         if localGpsData is not None:
             if hasattr(localGpsData, 'lon'):
                 gpsLon = localGpsData.lon
         return gpsLon
 
-    def getSpeed(self):
-        localGpsData = self.gpsData
+    def ParseSpeedFromGpsData(self, argGpsData):
+        if argGpsData is None:
+            localGpsData = argGpsData
+        else:
+            localGpsData = self.gpsData
+
         gpsSpeed = '0.0'
         if localGpsData is not None:
             if hasattr(localGpsData, 'speed'):
                 gpsSpeed = localGpsData.speed
         return gpsSpeed
 
-    def getTrack(self):
-        localGpsData = self.gpsData
+    def ParseTrackFromGpsData(self, argGpsData):
+        if argGpsData is None:
+            localGpsData = argGpsData
+        else:
+            localGpsData = self.gpsData
         gpsTrack = '0.0'
         if localGpsData is not None:
             if hasattr(localGpsData, 'track'):
                 gpsTrack = localGpsData.track
         return gpsTrack
 
+    def CurrentTime(self):
+        return self.CurrentTime(self.gpsData)
+
+    def CurrentLatitude(self):
+        return self.ParseLatitudeFromGpsData(self.gpsData)
+
+    def CurrentLongitude(self):
+        return self.ParseLongitudeFromGpsData(self.gpsData)
+
+    def CurrentSpeed(self):
+        return self.ParseSpeedFromGpsData(self.gpsData)
+
+    def CurrentTrack(self):
+        return self.ParseTrackFromGpsData(self.gpsData)
+
     def run(self):
             while self.runBackgroundLocationThread:
+                #this should be the only call to the gps reciever in the entire project!
                 loopGpsData = self.getSatelliteData()
-                loopLat = self.getLatitude()
-                loopLon = self.getLongitude()
-                if self.LastLat != loopLat  or self.LastLon != loopLon:
+
+                loopLat = self.ParseLatitudeFromGpsData(self,loopGpsData)
+                loopLon = self.ParseLongitudeFromGpsData(self,loopGpsData)
+                loopSpeed = self.ParseSpeedFromGpsData(self,loopGpsData)
+                loopTrack = self.ParseTrackFromGpsData(self,loopGpsData)
+
+                #did we change?
+                if self.LastLat != loopLat\
+                or self.LastLon != loopLon\
+                or self.LastSpeed != loopSpeed\
+                or self.LastTrack != loopTrack:
                     dbRepo = DataOps.DataOps()
                     dbRepo.saveGpsData(self.gpsData)
                     self.LastLat = loopLat
                     self.LastLon = loopLon
-                    print('Saved gpsData')
-                #print(self.gpsData)
-                time.sleep(8)
+                    self.LastSpeed = loopSpeed
+                    self.LastTrack = loopTrack
+                time.sleep(5)
                 pass
             return
 

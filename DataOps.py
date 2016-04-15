@@ -22,10 +22,14 @@ class DataOps(object):
         return
 
     def saveGpsData(self, gpsData):
-        print(gpsData)
         curs = self.conn.cursor()
-        dbStr = '''INSERT INTO Locations(Id,Lat,Lon,Date,DeviceId) VALUES('{0}',{1},{2},datetime('now'),'{3}');'''.format(uuid.uuid4(), gpsData.lat, gpsData.lon, self.serialNum)
-        print(dbStr)
+        dbStr = '''INSERT INTO Locations(Id,Lat,Lon,Speed,Track,Date,DeviceId) VALUES('{0}',{1},{2},{3},{4},datetime('now'),'{5}');'''\
+            .format(uuid.uuid4(), 
+                    gpsData.lat, 
+                    gpsData.lon,
+                    gpsData.speed, 
+                    gpsData.track, 
+                    self.serialNum)
         curs.execute(dbStr)
         self.conn.commit()
         return
@@ -34,7 +38,7 @@ class DataOps(object):
         # Extract serial from cpuinfo file
         cpuserial = "0000000000000001"
         try:
-            strPath ='/proc/cpuinfo'
+            strPath = '/proc/cpuinfo'
             basepath = os.path.dirname(__file__)
             filepath = os.path.abspath(os.path.join(basepath,"..", "..", "..", strPath))
             f = open(filepath, "r")
@@ -43,7 +47,7 @@ class DataOps(object):
                     cpuserial = line[10:26]
             f.close()
         except Exception as e:
-            print (e)
+            print(e)
             cpuserial = "ERROR000000004"        
         
         self.serialNum = cpuserial

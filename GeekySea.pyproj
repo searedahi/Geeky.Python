@@ -34,6 +34,9 @@
     <Compile Include="DataOps.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GeekySeaApi.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GpsData.py">
       <SubType>Code</SubType>
     </Compile>

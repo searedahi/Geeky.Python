@@ -9,12 +9,12 @@ Tempy = ThermometerService.ThermometerService()
 Loco = LocatorService.LocatorService()
 
 while Loco.gpsData is None:
-    print('No location fix')
+    print('Aquiring Satellites')
     time.sleep(5)
 
 while True:
-    print('Zulu Time   {0} ').format(Loco.getZuluTime())
+    print('Zulu Time   {0} ').format(Loco.CurrentTime())
     print('Temperature {0} Degrees F').format(Tempy.CurrentFarenheight())    
-    print('Position    {0} Lat x {1} Lon').format(Loco.getLatitude(),Loco.getLongitude())
+    #print('Position    {0} Lat x {1} Lon').format(Loco.CurrentLatitude(),Loco.CurrentLongitude())
     time.sleep(6)
     pass

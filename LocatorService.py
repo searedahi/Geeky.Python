@@ -35,7 +35,7 @@ class LocatorService(object):
                 gpsTime = localGpsData.time
         return gpsTime
 
-    def ParseLatitudeFromGpsData(self, argGpsData):
+    def ParseLatitudeFromGpsData(self, argGpsData=None):
         if argGpsData is None:
             localGpsData = argGpsData
         else:
@@ -47,7 +47,7 @@ class LocatorService(object):
                 gpsLat = localGpsData.lat
         return gpsLat
 
-    def ParseLongitudeFromGpsData(self, argGpsData):
+    def ParseLongitudeFromGpsData(self, argGpsData=None):
         if argGpsData is None:
             localGpsData = argGpsData
         else:
@@ -59,7 +59,7 @@ class LocatorService(object):
                 gpsLon = localGpsData.lon
         return gpsLon
 
-    def ParseSpeedFromGpsData(self, argGpsData):
+    def ParseSpeedFromGpsData(self, argGpsData=None):
         if argGpsData is None:
             localGpsData = argGpsData
         else:
@@ -71,7 +71,7 @@ class LocatorService(object):
                 gpsSpeed = localGpsData.speed
         return gpsSpeed
 
-    def ParseTrackFromGpsData(self, argGpsData):
+    def ParseTrackFromGpsData(self, argGpsData=None):
         if argGpsData is None:
             localGpsData = argGpsData
         else:
@@ -83,29 +83,31 @@ class LocatorService(object):
         return gpsTrack
 
     def CurrentTime(self):
-        return self.CurrentTime(self.gpsData)
+        return self.ParseTimeFromGpsData(self.gpsData)
 
     def CurrentLatitude(self):
-        return self.ParseLatitudeFromGpsData(self.gpsData)
+        return self.ParseLatitudeFromGpsData()
 
     def CurrentLongitude(self):
-        return self.ParseLongitudeFromGpsData(self.gpsData)
+        return self.ParseLongitudeFromGpsData()
 
     def CurrentSpeed(self):
-        return self.ParseSpeedFromGpsData(self.gpsData)
+        return self.ParseSpeedFromGpsData()
 
     def CurrentTrack(self):
-        return self.ParseTrackFromGpsData(self.gpsData)
+        return self.ParseTrackFromGpsData()
 
     def run(self):
             while self.runBackgroundLocationThread:
-                #this should be the only call to the gps reciever in the entire project!
+                #this should be the only call to the gps reciever in the entire
+                #project!
                 loopGpsData = self.getSatelliteData()
 
-                loopLat = self.ParseLatitudeFromGpsData(self,loopGpsData)
-                loopLon = self.ParseLongitudeFromGpsData(self,loopGpsData)
-                loopSpeed = self.ParseSpeedFromGpsData(self,loopGpsData)
-                loopTrack = self.ParseTrackFromGpsData(self,loopGpsData)
+
+                loopLat = self.ParseLatitudeFromGpsData(loopGpsData)
+                loopLon = self.ParseLongitudeFromGpsData(loopGpsData)
+                loopSpeed = self.ParseSpeedFromGpsData(loopGpsData)
+                loopTrack = self.ParseTrackFromGpsData(loopGpsData)
 
                 #did we change?
                 if self.LastLat != loopLat\

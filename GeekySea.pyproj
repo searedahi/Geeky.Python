@@ -22,7 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="DAL\SeedDatabase.sql" />
+    <Content Include="templates\GeekyLanding.html" />
     <Content Include="gpsDictionary.txt" />
+    <Content Include="templates\PinStatus.html" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoatManager.py">
@@ -51,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DAL\" />
+    <Folder Include="templates\" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />

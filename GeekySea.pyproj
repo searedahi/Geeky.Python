@@ -24,7 +24,10 @@
     <Content Include="DAL\SeedDatabase.sql" />
     <Content Include="templates\GeekyLanding.html" />
     <Content Include="gpsDictionary.txt" />
+    <Content Include="templates\KnockDowns.html" />
+    <Content Include="templates\Locations.html" />
     <Content Include="templates\PinStatus.html" />
+    <Content Include="templates\Temperatures.html" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoatManager.py">

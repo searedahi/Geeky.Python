@@ -1,6 +1,7 @@
 from flask import Flask, render_template, json, jsonify
 import datetime
 import RPi.GPIO as GPIO
+import DataOps
 
 
 app = Flask(__name__)
@@ -69,6 +70,19 @@ def api_echo():
 
 
 
+
+@app.route('/locations', methods = ['GET'])
+def api_locations():
+
+    locs = []
+
+    locs = DataOps.DataOps.getGpsDatum()
+    
+    rsp = jsonify(loc=[e.serialize() for e in locs])
+    
+    return rsp
+
+
 class SimpleUser(object):
     Id = -1
     FirstName = ''
@@ -110,6 +124,14 @@ def not_found(error=None):
     return resp
 
 app.error_handler_spec[None][404] = not_found
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

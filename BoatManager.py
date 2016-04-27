@@ -1,6 +1,7 @@
 import time
 import ThermometerService
 import LocatorService
+import GeekySeaApi
 
 
 print('Starting Boat Manager')

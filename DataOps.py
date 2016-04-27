@@ -34,7 +34,24 @@ class DataOps(object):
         self.conn.commit()
         return
 
-    def getserial(self):
+
+    def getGpsDatum(self):
+        curs = self.conn.cursor()
+        dbStr = '''SELECT * FROM Locations;'''
+        result = curs.execute(dbStr)
+        self.conn.commit()
+        return result
+
+
+
+
+
+
+
+
+
+
+    def _getserial_(self):
         # Extract serial from cpuinfo file
         cpuserial = "0000000000000001"
         try:
@@ -54,7 +71,7 @@ class DataOps(object):
         return self.serialNum
     
     def __init__(self):
-        self.getserial()
+        self._getserial_()
 
     def __delattr__(self):
         self.conn.close()

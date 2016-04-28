@@ -46,6 +46,12 @@ class DataOps(object):
         rows = curs.fetchall()
         return rows
     
+    def getGpsDatum(self):
+        curs = self.conn.cursor()
+        dbStr = '''SELECT * FROM Temperatures;'''
+        curs.execute(dbStr)
+        rows = curs.fetchall()
+        return rows
 
     serialNum = "0000000000000000"
     conn = sqlite3.connect('tester.db', check_same_thread=False)

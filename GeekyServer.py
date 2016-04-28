@@ -4,23 +4,64 @@ import RPi.GPIO as GPIO
 import DataOps
 import ptvsd
 import threading
+import time
+import ThermometerService
+import LocatorService
+
 
 class ApiServer(object):    
 
 
     app = Flask(__name__)
     GPIO.setmode(GPIO.BCM)
-    
+    #Tempy = ThermometerService.ThermometerService()
+    #Loco = LocatorService.LocatorService()
+    runBackgroundApiThread = True
+
+
+
     @app.route("/")
-    def hello():
+    def landing():
        now = datetime.datetime.now()
        timeString = now.strftime("%Y-%m-%d %H:%M")
+       Tempy = ThermometerService.ThermometerService()
+       currF = Tempy.CurrentFarenheight()
        templateData = {
           'title' : 'Geeky Sea!',
-          'time': timeString
+          'time': timeString,
+          'tempF': currF
           }
        return render_template('GeekyLanding.html', **templateData)
     
+
+    @app.route('/locations', methods = ['GET'])
+    def api_locations():
+        dbRepo = DataOps.DataOps()
+        locs = dbRepo.getGpsDatum()
+        return json.dumps(locs)
+    
+    @app.route('/temperatures', methods = ['GET'])
+    def api_tempuratures():
+        dbRepo = DataOps.DataOps()
+        temps = dbRepo.getTemperatures()
+        return json.dumps(temps)
+
+    @app.route('/currentTemp', methods = ['GET'])
+    def api_currentTemp():
+        Tempy = ThermometerService.ThermometerService()
+        currF = Tempy.CurrentFarenheight()
+        #currC = self.Tempy.CurrentCelcius()
+        message = {
+                'Farenheight': currF,
+                'Celceius': 456,
+        }
+        resp = jsonify(message)
+        resp.status_code = 200
+        return resp
+
+
+
+
     
     @app.route("/readPin/<pin>")
     def readPin(pin):
@@ -71,16 +112,7 @@ class ApiServer(object):
         elif request.method == 'DELETE':
             return "ECHO: DELETE"
     
-    
-    
-    
-    @app.route('/locations', methods = ['GET'])
-    def api_locations():
-        dbRepo = DataOps.DataOps()
-        locs = dbRepo.getGpsDatum()
-        return json.dumps(locs)
-    
-    
+            
     @app.errorhandler(404)
     def not_found(error=None):
         message = {

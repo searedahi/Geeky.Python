@@ -1,12 +1,12 @@
 import time
 import ThermometerService
 import LocatorService
-import GeekySeaApi
+import GeekyServer
 
 
 print('Starting Boat Manager')
 
-WebServ = GeekySeaApi.ApiServer()
+WebServ = GeekyServer.ApiServer()
 Tempy = ThermometerService.ThermometerService()
 Loco = LocatorService.LocatorService()
 

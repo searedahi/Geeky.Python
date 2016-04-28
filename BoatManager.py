@@ -6,8 +6,11 @@ import GeekySeaApi
 
 print('Starting Boat Manager')
 
+WebServ = GeekySeaApi.ApiServer()
 Tempy = ThermometerService.ThermometerService()
 Loco = LocatorService.LocatorService()
+
+
 
 while Loco.gpsData is None:
     print('Aquiring Satellites')

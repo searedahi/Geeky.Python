@@ -102,8 +102,7 @@ class LocatorService(object):
                 #this should be the only call to the gps reciever in the entire
                 #project!
                 loopGpsData = self.getSatelliteData()
-
-
+                
                 loopLat = self.ParseLatitudeFromGpsData(loopGpsData)
                 loopLon = self.ParseLongitudeFromGpsData(loopGpsData)
                 loopSpeed = self.ParseSpeedFromGpsData(loopGpsData)

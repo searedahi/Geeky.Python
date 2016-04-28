@@ -1,11 +1,16 @@
 import sqlite3
 import uuid
 import os
+import collections
 
 class DataOps(object):
     """all the data operatiosn to my pi"""
-    serialNum = "0000000000000000"
-    conn = sqlite3.connect('tester.db', check_same_thread=False)
+
+    def dict_factory(cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
        
     def saveHit(self, sensorId):
         curs = self.conn.cursor()
@@ -33,23 +38,19 @@ class DataOps(object):
         curs.execute(dbStr)
         self.conn.commit()
         return
-
-
+    
     def getGpsDatum(self):
         curs = self.conn.cursor()
-        dbStr = '''SELECT * FROM Locations;'''
-        result = curs.execute(dbStr)
-        self.conn.commit()
-        return result
+        dbStr = '''SELECT Id,Lat,Lon,Speed,Track,Date,DeviceId FROM Locations;'''
+        curs.execute(dbStr)
+        rows = curs.fetchall()
+        return rows
+    
 
-
-
-
-
-
-
-
-
+    serialNum = "0000000000000000"
+    conn = sqlite3.connect('tester.db', check_same_thread=False)
+    conn.row_factory = dict_factory
+    
 
     def _getserial_(self):
         # Extract serial from cpuinfo file

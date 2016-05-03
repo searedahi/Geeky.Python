@@ -2,29 +2,27 @@ from flask import Flask, render_template, json, jsonify, request
 import datetime
 import RPi.GPIO as GPIO
 import DataOps
-import ptvsd
 import threading
 import time
 import ThermometerService
 import LocatorService
 
+import ptvsd
+#ptvsd.enable_attach(secret='BoatApi')
 
-class ApiServer(object):    
-
+class ApiServer(object):
 
     app = Flask(__name__)
     GPIO.setmode(GPIO.BCM)
-    #Tempy = ThermometerService.ThermometerService()
+    Tempy = object
     #Loco = LocatorService.LocatorService()
     runBackgroundApiThread = True
-
 
 
     @app.route("/")
     def landing():
        now = datetime.datetime.now()
-       timeString = now.strftime("%Y-%m-%d %H:%M")
-       Tempy = ThermometerService.ThermometerService()
+       timeString = now.strftime("%Y-%m-%d %H:%M")       
        currF = Tempy.CurrentFarenheight()
        templateData = {
           'title' : 'Geeky Sea!',

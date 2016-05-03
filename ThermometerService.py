@@ -5,6 +5,9 @@ import DataOps
 import ptvsd
 import threading
 
+import ptvsd
+#ptvsd.enable_attach(secret='Tempy')
+
 class ThermometerService(object):
     """all the data operatiosn to my pi"""
 

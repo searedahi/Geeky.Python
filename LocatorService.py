@@ -2,6 +2,8 @@ import gps
 import DataOps
 import time
 import threading
+import ptvsd
+#ptvsd.enable_attach(secret='Loco')
 
 class LocatorService(object):
     """All the gps related logic for my geeky pi"""

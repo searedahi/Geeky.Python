@@ -3,10 +3,10 @@ import time
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(7, GPIO.OUT)
-GPIO.output(7,GPIO.HIGH)
+GPIO.output(7, GPIO.HIGH)
 while True:
-        GPIO.output(7,GPIO.HIGH)
-        pass
+    GPIO.output(7, GPIO.HIGH)
+    pass
 
-GPIO.output(7,GPIO.LOW)
+GPIO.output(7, GPIO.LOW)
 GPIO.cleanup()

@@ -22,8 +22,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="DAL\SeedDatabase.sql" />
-    <Content Include="templates\GeekyLanding.html" />
     <Content Include="gpsDictionary.txt" />
+    <Content Include="templates\GeekyLanding.html" />
     <Content Include="templates\KnockDowns.html" />
     <Content Include="templates\Locations.html" />
     <Content Include="templates\PinStatus.html" />
@@ -42,17 +42,14 @@
     <Compile Include="GeekyServer.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GpsData.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="LocatorService.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="sqlTester.py" />
-    <Compile Include="tester.py" />
+    <Compile Include="TemperaturesView.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ThermometerService.py" />
     <Compile Include="TrollerService.py" />
-    <Compile Include="turnOnLight.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DAL\" />

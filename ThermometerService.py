@@ -1,12 +1,13 @@
+""" Thermomter operations and central sensor IO control. """
+
 import os
 import glob
 import time
-import DataOps
-import ptvsd
 import threading
 
-import ptvsd
-#ptvsd.enable_attach(secret='Tempy')
+#import ptvsd
+#ptvsd.enable_attach(secret='ThermometerService')
+import DataOps
 
 class ThermometerService(object):
     """all the data operatiosn to my pi"""
@@ -14,47 +15,56 @@ class ThermometerService(object):
     os.system('modprobe w1-gpio')
     os.system('modprobe w1-therm')
 
-    base_dir = '/sys/bus/w1/devices/'
-    device_folder = glob.glob(base_dir + '28*')[0]
-    device_file = device_folder + '/w1_slave'
+    BASEDIR = '/sys/bus/w1/devices/'
+    DEVICE_FOLDER = glob.glob(BASEDIR + '28*')[0]
+    DEVICE_FILE = DEVICE_FOLDER + '/w1_slave'
 
-    lastTemperature = 0
-    runBackgroundThermometerThread = True
+    last_temp = 0
+    RUN_BACKGROUND = True
 
-    def read_temp_raw(self):
-        f = open(self.device_file, 'r')
-        lines = f.readlines()
-        f.close()
+    def _read_temp_raw_(self):
+        """ get the raw sensor reading for the ds18b20 """
+        local_f = open(self.DEVICE_FILE, 'r')
+        lines = local_f.readlines()
+        local_f.close()
         return lines
 
-    def read_temp(self):
-        lines = self.read_temp_raw()
+    def _read_temp_(self):
+        """ callback for when the troller gets knocked down """
+        lines = self._read_temp_raw_()
         while lines[0].strip()[-3:] != 'YES':
             time.sleep(0.2)
-            lines = read_temp_raw()
+            lines = self._read_temp_raw_()
         equals_pos = lines[1].find('t=')
         if equals_pos != -1:
-            temp_string = lines[1][equals_pos+2:]
-            return temp_string
+            sensor_temp_string = lines[1][equals_pos + 2:]
+            return sensor_temp_string
 
-    def CurrentCelcius(self):
-        temp_string = self.lastTemperature
-        temp_c = float(temp_string) / 1000.0
+    def current_celcius(self):
+        """ The current temperature in celcius. """
+
+        localtemp = self.last_temp
+        temp_c = float(localtemp) / 1000.0
         return temp_c
 
-    def CurrentFarenheight(self):
-        temp_c = self.CurrentCelcius()
+    def current_farenheight(self):
+        """ The current temperature in celcius. """
+
+        temp_c = self.current_celcius()
         temp_f = temp_c * 9.0 / 5.0 + 32.0
         return temp_f
 
     def run(self):
-        while self.runBackgroundThermometerThread:
-            rawTemp = self.read_temp()
-            if rawTemp != self.lastTemperature:
-                thermoData = DataOps.DataOps()
-                thermoData.saveTemperature(rawTemp)
-                self.lastTemperature = rawTemp
-            time.sleep(6)
+        """ Background service operation to monitor the temperature /
+        and update LAST_TEMP of any changes. """
+
+        while self.RUN_BACKGROUND:
+            raw_temp = self._read_temp_()
+            if raw_temp != self.last_temp:
+                thermo_db = DataOps.DataOps()
+                thermo_db.save_temperature(raw_temp)
+                self.last_temp = raw_temp
+            time.sleep(6) # it takes 4-6 seconds for the sensor to read and report back.
 
     def __init__(self, interval=4):
         """ Constructor

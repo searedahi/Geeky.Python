@@ -91,5 +91,5 @@ class DataOps(object):
     def __init__(self):
         self._getserial_()
 
-    def __delattr__(self):
+    def __delattr__(self, attr):
         self.conn.close()

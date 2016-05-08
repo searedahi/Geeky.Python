@@ -1,4 +1,5 @@
 """ All the temperature webserver functions. """
+
 from flask.ext.classy import FlaskView
 
 class TemperaturesView(FlaskView):

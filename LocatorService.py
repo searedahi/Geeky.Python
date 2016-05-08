@@ -34,9 +34,9 @@ class LocatorService(object):
         """ Parse the zulu time from the raw satellite data. """
 
         if arg_data is None:
-            local_data = arg_data
-        else:
             local_data = self.gps_data
+        else:
+            local_data = arg_data
 
         gps_time = '00:00.00'
         if local_data is not None:
@@ -47,9 +47,9 @@ class LocatorService(object):
     def _latitude_from_gps_data_(self, arg_data=None):
         """ Parse the latitude from the raw satellite data. """
         if arg_data is None:
-            local_data = arg_data
-        else:
             local_data = self.gps_data
+        else:
+            local_data = arg_data
 
         gps_lat = '00.00'
         if local_data is not None:
@@ -60,9 +60,9 @@ class LocatorService(object):
     def _longitude_from_gps_data_(self, arg_data=None):
         """ Parse the longitude from the raw satellite data. """
         if arg_data is None:
-            local_data = arg_data
-        else:
             local_data = self.gps_data
+        else:
+            local_data = arg_data
 
         gps_lon = '00.00'
         if local_data is not None:
@@ -73,9 +73,9 @@ class LocatorService(object):
     def _speed_from_gps_data_(self, arg_data=None):
         """ Parse the speed from the raw satellite data. """
         if arg_data is None:
-            local_data = arg_data
-        else:
             local_data = self.gps_data
+        else:
+            local_data = arg_data
 
         gps_speed = '0.0'
         if local_data is not None:
@@ -86,9 +86,9 @@ class LocatorService(object):
     def _track_from_gps_data_(self, arg_data=None):
         """ Parse the track from the raw satellite data. """
         if arg_data is None:
-            local_data = arg_data
-        else:
             local_data = self.gps_data
+        else:
+            local_data = arg_data
 
         gps_track = '0.0'
         if local_data is not None:

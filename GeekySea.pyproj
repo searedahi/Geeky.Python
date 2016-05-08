@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{23c255cf-e707-4f2d-8a96-3db1dffc598d}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>sqlTester.py</StartupFile>
+    <StartupFile>BoatManager.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>

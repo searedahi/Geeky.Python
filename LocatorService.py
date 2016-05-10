@@ -15,6 +15,11 @@ class LocatorService(object):
 
     session = gps.gps('localhost', '2947')
     session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
+    
+    
+    
+    serialNum = DataOps.DataOps()
+    SERIALNUM = serialNum.serial_num
 
     gps_data = None
 
@@ -133,8 +138,8 @@ class LocatorService(object):
             or self.last_lon != loop_lon\
             or self.last_speed != loop_speed\
             or self.last_track != loop_track:
-                gps_db = DataOps.DataOps()
-                gps_db.save_gps_data(self.gps_data)
+                gps_db = DataOps.DataOps(self.SERIALNUM)
+                gps_db.save_gps_data(loop_data)
                 self.last_lat = loop_lat
                 self.last_lon = loop_lon
                 self.last_speed = loop_speed

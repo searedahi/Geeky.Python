@@ -21,6 +21,8 @@ class ThermometerService(object):
 
     last_temp = 0
     RUN_BACKGROUND = True
+    serialNum = DataOps.DataOps()
+    SERIALNUM = serialNum.serial_num
 
     def _read_temp_raw_(self):
         """ get the raw sensor reading for the ds18b20 """
@@ -61,7 +63,7 @@ class ThermometerService(object):
         while self.RUN_BACKGROUND:
             raw_temp = self._read_temp_()
             if raw_temp != self.last_temp:
-                thermo_db = DataOps.DataOps()
+                thermo_db = DataOps.DataOps(self.SERIALNUM)
                 thermo_db.save_temperature(raw_temp)
                 self.last_temp = raw_temp
             time.sleep(6) # it takes 4-6 seconds for the sensor to read and report back.

@@ -6,7 +6,7 @@ import time
 import datetime
 
 #services
-import DataOps
+from DataOps import DataOps
 import ThermometerService
 import LocatorService
 
@@ -14,14 +14,16 @@ import LocatorService
 from flask import Flask, render_template, json, jsonify, request
 
 #VS debugger
-import ptvsd
-ptvsd.enable_attach(secret='ApiServer')
+#import ptvsd
+#ptvsd.enable_attach(secret='ApiServer')
 
 
 GPIO.setmode(GPIO.BCM)
 TEMPSVC = ThermometerService.ThermometerService()
 LOCASVC = LocatorService.LocatorService()
+DBREPO = DataOps()
 
+SERIALNUM = DBREPO.serial_num
 
 app = Flask(__name__)
 
@@ -43,15 +45,17 @@ def landing():
 
 @app.route('/locations', methods = ['GET'])
 def api_locations():
-    dbRepo = DataOps.DataOps()
-    locs = dbRepo.getGpsDatum()
+    locs = DBREPO.get_gps_datum()
     return json.dumps(locs)
 
 @app.route('/temperatures', methods = ['GET'])
 def api_tempuratures():
-    dbRepo = DataOps.DataOps()
-    temps = dbRepo.getTemperatures()
-    return json.dumps(temps)
+    try:
+        temps = DBREPO.get_temperatures()
+        return json.dumps(temps)
+    except exce:
+        print(exce)
+        pass
 
     
 @app.route("/readPin/<pin>")

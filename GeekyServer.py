@@ -15,7 +15,7 @@ from flask import Flask, render_template, json, jsonify, request
 
 #VS debugger
 #import ptvsd
-#ptvsd.enable_attach(secret='ApiServer')
+ptvsd.enable_attach(secret='ApiServer')
 
 
 GPIO.setmode(GPIO.BCM)
@@ -137,6 +137,6 @@ while LOCASVC.gps_data is None:
     print('Aquiring Satellites')
     time.sleep(5)
 
-print('Starting Geeky Server')
+print('Starting Api Server')
 
 app.run(host='0.0.0.0', port=80, debug=False)

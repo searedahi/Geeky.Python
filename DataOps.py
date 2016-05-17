@@ -14,7 +14,7 @@ class DataOps(object):
     serial_num = "0000000000000000"
 
 
-    def dict_factory(self, cursor, row):
+    def dict_factory(cursor, row):
         """return a dictionary from a  row set"""
         result = {}
         for idx, col in enumerate(cursor.description):
@@ -76,7 +76,7 @@ class DataOps(object):
         curs = self.conn.cursor()
         dbstr = '''SELECT Id,Lat,Lon,Speed,Track,Date,DeviceId FROM Locations;'''
         curs.execute(dbstr)
-        rows = curs.fetchall(100)
+        rows = curs.fetchall()
         return rows
 
     def get_gps_data(self, recordid):
@@ -129,7 +129,7 @@ class DataOps(object):
         return self.serial_num
 
     conn = sqlite3.connect('tester.db', check_same_thread=False)
-    #conn.row_factory = dict_factory
+    conn.row_factory = dict_factory
 
     def __init__(self, serial = None):
 

@@ -74,7 +74,7 @@ class DataOps(object):
         """get all the gps data from the database"""
         print('RUNNING {0} UNDER {1}').format("get_gps_datum", self.serial_num)
         curs = self.conn.cursor()
-        dbstr = '''SELECT Id,Lat,Lon,Speed,Track,Date,DeviceId FROM Locations;'''
+        dbstr = '''SELECT Id,Lat,Lon,Speed,Track,Date,DeviceId FROM Locations ORDER BY Date DESC;'''
         curs.execute(dbstr)
         rows = curs.fetchall()
         return rows
@@ -94,7 +94,7 @@ class DataOps(object):
         """get all the temperatures from the database"""
         print('RUNNING {0} UNDER {1}').format("get_gps_datum", self.serial_num)
         curs = self.conn.cursor()
-        dbstr = '''SELECT Id, SensorReading, Date, DeviceId FROM Temperatures;'''
+        dbstr = '''SELECT Id, SensorReading, Date, DeviceId FROM Temperatures ORDER BY Date DESC;'''
         curs.execute(dbstr)
         rows = curs.fetchall()
         return rows
@@ -109,6 +109,14 @@ class DataOps(object):
         rows = curs.fetchall()
         return rows
 
+    def get_temperatures_above_date(self, date):
+        """get all the temperatures from the database"""
+        print('RUNNING {0} UNDER {1}').format("get_gps_datum", self.serial_num)
+        curs = self.conn.cursor()
+        dbstr = '''SELECT Id, SensorReading, Date, DeviceId FROM Temperatures WHERE Date > {0} ORDER BY Date DESC;'''.format(date)
+        curs.execute(dbstr)
+        rows = curs.fetchall()
+        return rows
 
     def _getserial_(self):
         """extract the serial number from the rapsberry pi"""

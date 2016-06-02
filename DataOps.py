@@ -5,8 +5,8 @@ import os
 import uuid
 
 #VS debugger
-import ptvsd
-ptvsd.enable_attach(secret='DataOps')
+#import ptvsd
+#ptvsd.enable_attach(secret='DataOps')
 
 class DataOps(object):
     """all the data operations to boat pi"""

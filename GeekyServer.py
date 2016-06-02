@@ -1,7 +1,6 @@
 """ The main web server for geeky boating. """
 
 import RPi.GPIO as GPIO
-import threading
 import time
 import datetime
 
@@ -14,8 +13,8 @@ import LocatorService
 from flask import Flask, render_template, json, jsonify, request
 
 #VS debugger
-#import ptvsd
-ptvsd.enable_attach(secret='ApiServer')
+import ptvsd
+ptvsd.enable_attach(secret='GeekyServer')
 
 
 GPIO.setmode(GPIO.BCM)
@@ -57,7 +56,22 @@ def api_tempuratures():
         print(exce)
         pass
 
-    
+
+@app.route('/currentTemp', methods = ['GET'])
+def api_currentTemp():
+    currF = TEMPSVC.current_farenheight()
+    currC = TEMPSVC.current_celcius()
+    message = {
+            'Farenheight': currF,
+            'Celceius': currC,
+    }
+    resp = jsonify(message)
+    resp.status_code = 200
+    return resp
+
+
+
+
 @app.route("/readPin/<pin>")
 def readPin(pin):
     try:
@@ -107,17 +121,8 @@ def api_echo():
     elif request.method == 'DELETE':
         return "ECHO: DELETE"
 
-@app.route('/currentTemp', methods = ['GET'])
-def api_currentTemp():
-    currF = TEMPSVC.CurrentFarenheight()
-    currC = TEMPSVC.CurrentCelcius()
-    message = {
-            'Farenheight': currF,
-            'Celceius': currC,
-    }
-    resp = jsonify(message)
-    resp.status_code = 200
-    return resp
+
+
 
 
 @app.errorhandler(404)

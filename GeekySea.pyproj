@@ -45,6 +45,9 @@
     <Compile Include="LocatorService.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SignalService.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TemperaturesView.py">
       <SubType>Code</SubType>
     </Compile>

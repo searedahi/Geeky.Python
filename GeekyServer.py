@@ -56,6 +56,15 @@ def api_tempuratures():
         print(exce)
         pass
 
+@app.route('/temperatures/AboveDate/<minDate>}', methods = ['GET'])
+def api_tempuratures_abovedate(minDate):
+    try:
+        temps = DBREPO.get_temperatures_above_date(minDate)
+        return json.dumps(temps)
+    except exce:
+        print(exce)
+        pass
+
 
 @app.route('/currentTemp', methods = ['GET'])
 def api_currentTemp():
